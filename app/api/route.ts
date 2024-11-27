@@ -15,6 +15,6 @@ export async function GET(req: NextRequest) {
         const user = await prismaClient.user.findUnique({ where: { id }, include: { tasks: true } })
         return NextResponse.json({ user }, { status: 200 });
     } catch (err) {
-        return NextResponse.json({ message: "invalid Token" }, { status: 401 });
+        return NextResponse.json({ message: "invalid Token", err }, { status: 500 });
     }
 }
