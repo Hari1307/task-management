@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
         })
         return NextResponse.json({ message: "Created Task Successfully", task }, { status: 201 });
     } catch (err: any) {
-        return NextResponse.json({ message: "Error in creating a Task", error: err.message }, { status: 500 });
+        return NextResponse.json({ message: "Error in creating a Task", err }, { status: 500 });
     }
 }
 export async function GET(req: NextRequest) {
@@ -55,6 +55,6 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json({ message: "fetched tasks successfully", task: tasks }, { status: 200 });
     } catch (err: any) {
-        return NextResponse.json({ message: "Error in getting Tasks", error: err.message }, { status: 500 });
+        return NextResponse.json({ message: "Error in getting Tasks", err }, { status: 500 });
     }
 }
