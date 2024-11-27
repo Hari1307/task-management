@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
             }
         })
         return NextResponse.json({ message: "Created Task Successfully", task }, { status: 201 });
-    } catch (err: any) {
+    } catch (err) {
         return NextResponse.json({ message: "Error in creating a Task", err }, { status: 500 });
     }
 }
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
         const tasks = await prismaClient.user.findUnique({ where: { id }, include: { tasks: true } }).tasks;
 
         return NextResponse.json({ message: "fetched tasks successfully", task: tasks }, { status: 200 });
-    } catch (err: any) {
+    } catch (err) {
         return NextResponse.json({ message: "Error in getting Tasks", err }, { status: 500 });
     }
 }

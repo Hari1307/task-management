@@ -19,7 +19,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         const deletedTask = await prismaClient.task.delete({ where: { id: taskId } })
 
         return NextResponse.json({ message: "Deleted task successfully", task: deletedTask }, { status: 200 });
-    } catch (err: any) {
+    } catch (err) {
         return NextResponse.json({ message: "Error in deleting a Task", err }, { status: 500 });
     }
 }
