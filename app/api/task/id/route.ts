@@ -1,6 +1,5 @@
-import { NextResponse, NextRequest } from "next/server";
-import { JWT_SECRET, prismaClient } from "../../lib/db";
-import jwt from "jsonwebtoken";
+import { NextRequest, NextResponse } from "next/server";
+import { prismaClient } from "../../lib/db";
 
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {
