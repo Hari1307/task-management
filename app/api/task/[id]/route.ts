@@ -1,8 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "../../lib/db";
 
-export async function PUT(req: NextRequest, context: { params: { id: string } }) {
-    const { id } = context.params;
+export async function PUT(req: NextRequest) {
+    const url = new URL(req.url);
+    const pathSegments = url.pathname.split('/').filter(Boolean);
+    const id = pathSegments[pathSegments.length - 1]
+
+    if (!id) {
+        return NextResponse.json(
+            { message: "No ID provided" },
+            { status: 400 }
+        )
+    }
+
+    const taskId = parseInt(id, 10)
 
     const token = req.headers.get('Authorization')?.split(' ')[1];
 
@@ -10,8 +21,6 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
         return NextResponse.json({ message: "Unauthorized to access this page" }, { status: 400 });
 
     try {
-        const taskId = parseInt(id, 10);
-
         const { title, priority, startTime, endTime, status } = await req.json();
 
         const updatedTask = await prismaClient.task.update({
@@ -25,8 +34,19 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
     }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-    const { id } = params;
+export async function DELETE(req: NextRequest) {
+    const url = new URL(req.url);
+    const pathSegments = url.pathname.split('/').filter(Boolean);
+    const id = pathSegments[pathSegments.length - 1]
+
+    if (!id) {
+        return NextResponse.json(
+            { message: "No ID provided" },
+            { status: 400 }
+        )
+    }
+
+    const taskId = parseInt(id, 10);
 
     const token = req.headers.get('Authorization')?.split(' ')[1];
 
@@ -34,8 +54,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         return NextResponse.json({ message: "Unauthorized to access this page" }, { status: 400 });
 
     try {
-        const taskId = parseInt(id, 10);
-
         const task = await prismaClient.task.findUnique({ where: { id: taskId } });
 
         if (!task) {
