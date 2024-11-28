@@ -5,9 +5,10 @@ import { JWT_SECRET, prismaClient } from "../lib/db";
 
 export async function POST(req: NextRequest) {
     const token = req.headers.get('Authorization')?.split(' ')[1];
-
-    if (!token)
+    if (!token) {
+        console.log(token);
         return NextResponse.json({ message: "Unauthorized to access this page" }, { status: 400 });
+    }
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
     }
 }
 export async function GET(req: NextRequest) {
+    console.log(req.headers.get('Authorization')?.split(' '));
     const token = req.headers.get('Authorization')?.split(' ')[1];
 
     if (!token)
